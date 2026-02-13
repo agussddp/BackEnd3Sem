@@ -1,0 +1,15 @@
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\EX04.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\EX04.AssemblyInfoInputs.cache
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\EX04.AssemblyInfo.cs
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\EX04.csproj.CoreCompileInputs.cache
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\EX04.sourcelink.json
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\bin\Debug\net10.0\EX04.exe
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\bin\Debug\net10.0\EX04.deps.json
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\bin\Debug\net10.0\EX04.runtimeconfig.json
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\bin\Debug\net10.0\EX04.dll
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\bin\Debug\net10.0\EX04.pdb
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\EX04.dll
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\refint\EX04.dll
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\EX04.pdb
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\EX04.genruntimeconfig.cache
+C:\Users\54781547842\Desktop\BackEnd3Sem\BackEnd\EX04\obj\Debug\net10.0\ref\EX04.dll
