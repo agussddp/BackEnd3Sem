@@ -30,19 +30,19 @@ public partial class FilmeContext : DbContext
     {
         modelBuilder.Entity<FIlme>(entity =>
         {
-            entity.HasKey(e => e.IdFilme).HasName("PK__fIlme__6E8F2A769A753A23");
+            entity.HasKey(e => e.IdFilme).HasName("PK__fIlme__6E8F2A761101CD2C");
 
-            entity.HasOne(d => d.IdGeneroNavigation).WithMany(p => p.FIlmes).HasConstraintName("FK__fIlme__IdGenero__5EBF139D");
+            entity.HasOne(d => d.IdGeneroNavigation).WithMany(p => p.FIlmes).HasConstraintName("FK__fIlme__IdGenero__4CA06362");
         });
 
         modelBuilder.Entity<Genero>(entity =>
         {
-            entity.HasKey(e => e.IdGenero).HasName("PK__Genero__0F8349880B560D72");
+            entity.HasKey(e => e.IdGenero).HasName("PK__Genero__0F834988C6D60A10");
         });
 
         modelBuilder.Entity<Usuario>(entity =>
         {
-            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__5B65BF97697F31E3");
+            entity.HasKey(e => e.IdUsuario).HasName("PK__Usuario__5B65BF9789EEC18D");
         });
 
         OnModelCreatingPartial(modelBuilder);
