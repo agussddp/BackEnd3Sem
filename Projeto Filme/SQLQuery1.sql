@@ -1,1 +1,1 @@
-SELECT * FROM Genero;
+SELECT * FROM Usuario;
