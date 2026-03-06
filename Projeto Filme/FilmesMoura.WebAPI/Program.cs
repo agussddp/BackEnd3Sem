@@ -121,8 +121,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("CorsPolicy");
-app.UseStaticFiles();
 
+app.UseStaticFiles();
 
 app.UseAuthentication();
 
