@@ -13,7 +13,6 @@ namespace EventPlus.WebAPI.Controllers
     {
         private ITipoUsuarioRepository _tipoUsuarioRepository;
 
-
         public TipoUsuarioController(ITipoUsuarioRepository tipoUsuarioRepository)
         {
             _tipoUsuarioRepository = tipoUsuarioRepository;
@@ -25,6 +24,8 @@ namespace EventPlus.WebAPI.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns>status code 200 e o tipo de usuario buscado</returns>
+        /// 
+
         [HttpGet("{id}")]
         public IActionResult BuscarPorId(Guid id)
         {
@@ -38,27 +39,30 @@ namespace EventPlus.WebAPI.Controllers
             }
         }
 
-        
-        
+
         /// <summary>
         /// Faz a chamada para o método de cadastrar um tipo de usuario
         /// </summary>
         /// <param name="tipoUsuario">Tipo de usuario pra cadastro</param>
         /// <returns>Status code 201 e o tipo de usuario a ser cadastrado</returns>
         [HttpPost]
-        public IActionResult Cadastrar(TipoUsuario tipoUsuario)
+        public IActionResult Cadastrar(TipoUsuarioDTO tipoUsuario)
         {
             try
             {
-                _tipoUsuarioRepository.Cadastrar(tipoUsuario);
-                return StatusCode(201, tipoUsuario);
+                var novoTipoUsuario = new TipoUsuario
+                {
+                    Titulo = tipoUsuario.Titulo!
+                };
+
+                _tipoUsuarioRepository.Cadastrar(novoTipoUsuario);
+                return StatusCode(201, novoTipoUsuario);
             }
-            catch (Exception e)
+            catch (Exception erro)
             {
-                return BadRequest(e.Message);
+                return BadRequest(erro.Message);
             }
         }
-
 
 
         /// <summary>
@@ -67,24 +71,27 @@ namespace EventPlus.WebAPI.Controllers
         /// <param name="id"> ID Do tipo de usuario atualizado</param>
         /// <param name="tipoUsuario">tipo de usuario com os dados</param>
         /// <returns>Status Code 204 e o tipo de usuario atualizados</returns>
+        /// 
         [HttpPut("{id}")]
-        public IActionResult Atualizar(Guid id, TipoUsuario tipoUsuario)
+        public IActionResult Atualizar(Guid id, TipoUsuarioDTO tipoUsuario)
         {
             try
             {
-                var tipoEventoAtualizado = new TipoEvento
+                var tipoUsuarioAtualizado = new TipoUsuario
                 {
                     Titulo = tipoUsuario.Titulo!
                 };
-                _tipoUsuarioRepository.Atualizar(id, tipoUsuario);
 
-                return StatusCode(204, tipoUsuario);
+                    _tipoUsuarioRepository.Atualizar(id, tipoUsuarioAtualizado);
+                    
+                    return StatusCode(204, tipoUsuarioAtualizado);
             }
-            catch (Exception e)
+            catch (Exception erro)
             {
-                return BadRequest(e.Message);
+                return BadRequest(erro.Message);
             }
         }
+
 
         /// <summary>
         /// faz a chamada para o método de deletar um tipo de usuario
