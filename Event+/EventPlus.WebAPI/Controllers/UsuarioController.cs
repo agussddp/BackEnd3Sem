@@ -1,6 +1,7 @@
 ﻿using EventPlus.WebAPI.DTO;
 using EventPlus.WebAPI.Interfaces;
 using EventPlus.WebAPI.Models;
+using EventPlus.WebAPI.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,23 @@ namespace EventPlus.WebAPI.Controllers
             _usuarioRepository = usuarioRepository;
         }
 
+
+        /// <summary>
+        /// Lista Todos os usuarios
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Listar()
+        {
+            try
+            {
+                return Ok(_usuarioRepository.Listar());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
 
         /// <summary>

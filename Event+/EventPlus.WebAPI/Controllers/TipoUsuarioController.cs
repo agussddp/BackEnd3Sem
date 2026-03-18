@@ -18,6 +18,22 @@ namespace EventPlus.WebAPI.Controllers
             _tipoUsuarioRepository = tipoUsuarioRepository;
         }
 
+        /// <summary>
+        /// Lista todos os Tipos de Usuario
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Listar()
+        {
+            try
+            {
+                return Ok(_tipoUsuarioRepository.Listar());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         /// <summary>
         /// Endpoint da API que faz a chamada para o método de buscar o tipo de evento específico

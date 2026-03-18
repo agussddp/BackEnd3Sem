@@ -1,6 +1,7 @@
 ﻿using EventPlus.WebAPI.BdContextEvent;
 using EventPlus.WebAPI.Interfaces;
 using EventPlus.WebAPI.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventPlus.WebAPI.Repositories
 {
@@ -55,9 +56,15 @@ namespace EventPlus.WebAPI.Repositories
             throw new NotImplementedException();
         }
 
-        public List<Instituicao> Listar() // Removido parâmetro desnecessário para listagem geral
+        public List<Instituicao> Listar()
         {
-            return _context.Instituicaos.OrderBy(instituicao => instituicao.NomeFantasia).ToList();
+            return _context.Instituicaos
+                .OrderBy(i => i.NomeFantasia).ToList();
+        }
+
+        List<Presenca> IInstituicaoRepository.Listar()
+        {
+            throw new NotImplementedException();
         }
     }
 }

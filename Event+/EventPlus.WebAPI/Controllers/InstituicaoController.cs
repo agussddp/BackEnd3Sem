@@ -1,8 +1,9 @@
 ﻿
-using Microsoft.AspNetCore.Mvc;
 using EventPlus.WebAPI.DTO;
 using EventPlus.WebAPI.Interfaces;
 using EventPlus.WebAPI.Models;
+using EventPlus.WebAPI.Repositories;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace EventPlus.WebAPI.Controllers
@@ -18,6 +19,24 @@ namespace EventPlus.WebAPI.Controllers
             _instituicaoRepository = instituicaoRepository;
         }
 
+
+
+        /// <summary>
+        /// Lista todas as Instituicoes
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Listar()
+        {
+            try
+            {
+                return Ok(_instituicaoRepository.Listar());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
         /// <summary>
         /// Endpoint da API que faz a chamada para o método de buscar a insticuicao específico

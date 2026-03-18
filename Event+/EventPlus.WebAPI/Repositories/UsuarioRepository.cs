@@ -67,5 +67,10 @@ namespace EventPlus.WebAPI.Repositories
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();
         }
+
+        public List<Usuario> Listar()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

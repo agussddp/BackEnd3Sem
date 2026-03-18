@@ -1,6 +1,7 @@
 ﻿using EventPlus.WebAPI.DTO;
 using EventPlus.WebAPI.Interfaces;
 using EventPlus.WebAPI.Models;
+using EventPlus.WebAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -17,6 +18,23 @@ namespace EventPlus.WebAPI.Controllers
         public LoginController(IUsuarioRepository usuarioRepository)
         {
             _usuarioRepository = usuarioRepository;
+        }
+
+        /// <summary>
+        /// Lista todos os Usuarios
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult Listar()
+        {
+            try
+            {
+                return Ok(_usuarioRepository.Listar());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost]
@@ -36,6 +54,8 @@ namespace EventPlus.WebAPI.Controllers
                     new Claim(JwtRegisteredClaimNames.Jti,usuarioBuscado.IdUsuario.ToString()!),
                     new Claim(JwtRegisteredClaimNames.Email,usuarioBuscado.Email!),
                     new Claim(JwtRegisteredClaimNames.Name,usuarioBuscado.Nome!),
+                    
+                    
                 };
 
                 

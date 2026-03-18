@@ -52,5 +52,10 @@ namespace EventPlus.WebAPI.Repositories
         {
             return _context.TipoUsuarios.OrderBy(tipoUsuario => tipoUsuario.Titulo).ToList();
         }
+
+        public List<TipoUsuario> Listar()
+        {
+            return _context.TipoUsuarios.ToList();
+        }
     }
 }
