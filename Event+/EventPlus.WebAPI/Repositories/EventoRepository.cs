@@ -96,8 +96,7 @@ namespace EventPlus.WebAPI.Repositories
         /// <returns>Lista de eventos futuros ordenada por data</returns>
         public List<Evento> ListarProximos()
         {
-            return _context.Eventos
-                .Include(e => e.IdTipoEventoNavigation).Include(e => e.IdInstituicaoNavigation).Where(e => e.DataEvento >= DateTime.Now).OrderBy(e => e.DataEvento).ToList();
+            return _context.Eventos.Include(e => e.IdTipoEventoNavigation).Include(e => e.IdInstituicaoNavigation).Where(e => e.DataEvento >= DateTime.Now).OrderBy(e => e.DataEvento).ToList();
         }
     }
 }
