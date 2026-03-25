@@ -1,137 +1,156 @@
-﻿using EventPlus.WebAPI.DTOs;
+﻿using EventPlus.WebAPI.DTO;
 using EventPlus.WebAPI.Interfaces;
 using EventPlus.WebAPI.Models;
+using EventPlus.WebAPI.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EventPlus.WebAPI.Controllers
+namespace EventPlus.WebAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+public class EventoController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Produces("application/json")]
-    public class EventoController : ControllerBase
+    private IEventoRepository _eventoRepository;
+    public EventoController(IEventoRepository eventoRepository)
     {
-        private readonly IEventoRepository _eventoRepository;
-
-        public EventoController(IEventoRepository eventoRepository)
+        _eventoRepository = eventoRepository;
+    }
+    /// <summary>
+    /// EndPoint da API que faz a chamada para o metodo de listar eventos filtrado pelo usuario
+    /// </summary>
+    /// <param name="idUsuario">Id do usuario filtragem</param>
+    /// <returns>Lista de eventos filtrados por usuario</returns>
+    [HttpGet("Usuario/{idUsuario}")]
+    public IActionResult ListarPorId(Guid idUsuario)
+    {
+        try
         {
-            _eventoRepository = eventoRepository;
+            return Ok(_eventoRepository.ListarPorId(idUsuario));
         }
-
-        /// <summary>
-        /// Lista todos os eventos cadastrados
-        /// </summary>
-        [HttpGet]
-        public IActionResult Listar()
+        catch (Exception erro)
         {
-            try
-            {
-                return Ok(_eventoRepository.Listar());
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Busca eventos filtrados pelas presenças confirmadas de um usuário
-        /// </summary>
-        /// <param name="idUsuario">ID do usuário para filtragem</param>
-        [HttpGet("Usuario/{idUsuario}")]
-        public IActionResult ListarPorId(Guid idUsuario)
-        {
-            try
-            {
-                return Ok(_eventoRepository.ListarPorId(idUsuario));
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Lista os próximos eventos data maior ou igual à atual
-        /// </summary>
-        [HttpGet("ListarProximos")]
-        public IActionResult BuscarProximos()
-        {
-            try
-            {
-                return Ok(_eventoRepository.ListarProximos());
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Cadastra um novo evento 
-        /// </summary>
-        [HttpPost]
-        public IActionResult Cadastrar(EventoDTO evento)
-        {
-            try
-            {
-                Evento novoEvento = new Evento
-                {
-                    Nome = evento.Nome!,
-                    DataEvento = evento.DataEvento,
-                    Descricao = evento.Descricao!,
-                    
-                };
-
-                _eventoRepository.Cadastrar(novoEvento);
-                return StatusCode(201, novoEvento);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Atualiza um evento existente
-        /// </summary>
-        [HttpPut("{id}")]
-        public IActionResult Atualizar(Guid id, EventoDTO evento)
-        {
-            try
-            {
-                Evento eventoAtualizado = new Evento
-                {
-                    Nome = evento.Nome!,
-                    DataEvento = evento.DataEvento,
-                    Descricao = evento.Descricao!,
-                    IdTipoEvento = evento.IdTipoEvento,
-                    IdInstituicao = evento.IdInstituicao
-                };
-
-                _eventoRepository.Atualizar(id, eventoAtualizado);
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        /// <summary>
-        /// Deleta um evento do sistema.
-        /// </summary>
-        [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
-        {
-            try
-            {
-                _eventoRepository.Deletar(id);
-                return NoContent();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
+            return BadRequest(erro.Message);
         }
     }
+
+    /// <summary>
+    /// EndPoint da API que faz a chamada para o metodo de listar os proximos eventos
+    /// </summary>
+    /// <returns>Status code 200 e uma lista de proximos eventos </returns>
+    [HttpGet("ListarProximos")]
+    public IActionResult BuscarProximos()
+    {
+        try
+        {
+            return Ok(_eventoRepository.ListarProximos());
+        }
+        catch (Exception erro)
+        {
+            return BadRequest(erro.Message);
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    public IActionResult Listar()
+    {
+        try
+        {
+            return Ok(_eventoRepository.Listar());
+        }
+        catch (Exception erro)
+        {
+            return BadRequest(erro.Message);
+        }
+    }
+
+    [HttpGet("{id}")]
+    public IActionResult BuscarPorId(Guid id)
+    {
+        try
+        {
+            return Ok(_eventoRepository.BuscarPorId(id));
+        }
+        catch (Exception erro)
+        {
+            return BadRequest(erro.Message);
+        }
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="evento"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public IActionResult Cadastrar(EventoDTO evento)
+    {
+        try
+        {
+            var novoevento = new Evento
+            {
+                Nome = evento.Nome!,
+                Descricao = evento.Descricao!,
+                DataEvento = evento.DataEvento!,
+                IdTipoEvento = evento.IdTipoEvento!,
+                IdInstituicao = evento.IdInstituicao!
+            };
+            _eventoRepository.Cadastrar(novoevento);
+            return StatusCode(201);
+        }
+        catch (Exception erro)
+        {
+            return BadRequest(erro.Message);
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete]
+    public IActionResult Deletar(Guid id)
+    {
+        try
+        {
+            _eventoRepository.Deletar(id);
+            return StatusCode(204);
+        }
+        catch (Exception erro)
+        {
+            return BadRequest(erro.Message);
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="evento"></param>
+    /// <returns></returns>
+    [HttpPut]
+    public IActionResult Atualizar(Guid id, EventoDTO evento)
+    {
+        var novoevento = new Evento
+        {
+            Nome = evento.Nome!,
+            Descricao = evento.Descricao!,
+            DataEvento = evento.DataEvento!,
+            IdTipoEvento = evento.IdTipoEvento!,
+            IdInstituicao = evento.IdInstituicao!
+        };
+        try
+        {
+            _eventoRepository.Atualizar(id, novoevento);
+            return StatusCode(204);
+        }
+        catch (Exception erro)
+        {
+            return BadRequest(erro.Message);
+        }
+    }
+
 }

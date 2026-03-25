@@ -1,82 +1,123 @@
-
-
-using EventPlus.WebAPI.BdContextEvent;
+ï»¿using EventPlus.WebAPI.BdContextEvent;
 using EventPlus.WebAPI.Interfaces;
 using EventPlus.WebAPI.Repositories;
+using EventPlus.WebAPI.Repositorios;
+using EventPlus.WebAPI.DTO;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi;
+using System.IdentityModel.Tokens.Jwt;
+using System.Reflection.Metadata;
+using System.Security.Claims;
+using Azure.AI.ContentSafety;
+using EventPlus.WebAPI.Repositories;
+using EventPlus.WebApi.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// 1. configurar o contexto do Banco de Dados
+
+//Configurar o contexto do banco de dados
+
 builder.Services.AddDbContext<EventContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-//2. Registrar as Repositories (Injeção de Dependencia)
-builder.Services.AddScoped<ITipoUsuarioRepository, TipoUsuarioRepository>();
-builder.Services.AddScoped<IInstituicaoRepository, InstituicaoRepository>();
-builder.Services.AddScoped<ITipoEventoRepository, TipoEventoRepository>();
-builder.Services.AddScoped<IEventoRepository, EventoRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+//2. Registrar as repositories (injecao de dependencia)
+builder.Services.AddScoped <ITipoEventoRepository, TipoEventoRepository>();
+builder.Services.AddScoped <ITipoUsuarioRepository, TipoUsuarioRepository>();
+builder.Services.AddScoped <IInstituicaoRepository, InstituicaoRepository>();
+builder.Services.AddScoped <IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped <IEventoRepository, EventoRepository>();
+builder.Services.AddScoped <IPresencaRepository, PresencaRepository>();
+builder.Services.AddScoped<IComentarioEventoRepository, ComentarioEventoRepository>();
 
+////Configurando o azure content safety
+//var endpoint = "https://azure.com";
+//var apikey = "";
 
-//Adiciona o Swagger
+//var client = new ContentSafetyClient(new Uri(endpoint), new Azure.AzureKeyCredential(apikey));
+//builder.Services.AddSingleton(client);
+
+//adiciona o Swagger
 builder.Services.AddEndpointsApiExplorer();
-
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddSwaggerGen(Options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo
+    Options.SwaggerDoc("v1", new OpenApiInfo
     {
         Version = "v1",
-        Title = "Api de Eventos",
-        Description = "Aplicação para gerenciamento de eventos",
-        TermsOfService = new Uri("https://example.com/terms"),
+        Title = "API de Eventos",
+        Description = "API para gerenciamento de eventos",
+        TermsOfService = new Uri("https://drive.google.com/file/d/1VWD-PMIfm1fPuQST_ByhAspS7deVlJkB/view?usp=sharing"),
         Contact = new OpenApiContact
         {
-            Name = "Giulia Marzano",
-            Url = new Uri("https://example.com/terms")
+            Name = "Ariel",
+            Url = new Uri("https://github.com/ArielPinheiro")
         },
         License = new OpenApiLicense
         {
             Name = "Licensa de exemplo",
-            Url = new Uri("https://example.com/terms")
+            Url = new Uri("https://lh3.googleusercontent.com/pw/AP1GczN5VJ3-9BbzTAsOdd6g4qgUlnQ5Sb-iJXUsZCX8He6WZBftqZjau3bjEzOP9Qe2HhRvEQRltzjxVZWntGCMnMuMDnNyjlDCavcD1KaK3nsIk0ZQQeMMWmgNiJts0Mo3q8fJe4--G0xsu0Tg0-pwUL4T=w408-h408-s-no?authuser=0")
         }
     });
-
-    //Usando a autenticação no Swagger
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    Options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
-        Scheme = "Bearer",
+        Scheme = "bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Insira o token JWT"
+        Description = "Bota o token ai jï¿½o E TEM Q SER JWT:"
     });
-    options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+    Options.AddSecurityRequirement(document => new OpenApiSecurityRequirement
     {
         [new OpenApiSecuritySchemeReference("Bearer", document)] = Array.Empty<string>().ToList()
     });
 });
 
+
 builder.Services.AddControllers();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultChallengeScheme = "JwtBearer";
+    options.DefaultAuthenticateScheme = "JwtBearer";
+})
+    .AddJwtBearer("JwtBearer", options =>
+    {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,// Valida o emissor do token
+            ValidateAudience = true, // Valida o destinatÃ¡rio do token
+            ValidateLifetime = true, // Valida se o token expirou
+            ValidateIssuerSigningKey = true, // Valida a chave de assinatura do token
+            ValidIssuer = "api_events", // Emissor do token
+            ValidAudience = "api_events", // DestinatÃ¡rio do token
+            IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("Filmes-Chave-Autenticacao-webapi-dev")),// Chave de assinatura do token
+            ClockSkew = TimeSpan.Zero // Elimina a tolerÃ¢ncia de expiraÃ§Ã£o do token
+
+        };
+    });
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+    app.UseSwagger(options => { });
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "API de Eventos v1");
+        options.RoutePrefix = string.Empty;
+    });
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-
-    app.UseSwagger(options => { });
-
-    app.UseSwaggerUI(options => 
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
-        options.RoutePrefix = string.Empty;
-    });
 }
 
 app.UseHttpsRedirection();

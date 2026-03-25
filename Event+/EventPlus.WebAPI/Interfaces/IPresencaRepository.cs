@@ -1,16 +1,12 @@
-﻿using EventPlus.WebAPI.DTOs;
-using EventPlus.WebAPI.Models;
+﻿using EventPlus.WebAPI.Models;
+namespace EventPlus.WebAPI.Interfaces;
 
-namespace EventPlus.WebAPI.Interfaces
+public interface IPresencaRepository
 {
-    public interface IPresencaRepository
-    {
-        void Inscrever(Presenca presenca);
-        void Deletar(Guid id);
-        List<Presenca> Listar();
-        Presenca BuscarPorId(Guid id);
-        void Atualizar(Guid id, Evento eventoAtualizado);
-        List<Presenca> ListarMinhas(Guid IdUsuario);
-        void Atualizar(Guid id, PresencaDTO presenca);
-    }
+    void Inscrever(Presenca presenca);
+    void Deletar(Guid id);
+    void Atualizar(Guid id, Presenca presenca);
+    List<Presenca> Listar();
+    Presenca BuscarPorId(Guid id);
+    List<Presenca> ListarMinhas(Guid IdUsuario);
 }

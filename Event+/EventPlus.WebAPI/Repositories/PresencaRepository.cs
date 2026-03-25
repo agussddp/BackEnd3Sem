@@ -1,4 +1,5 @@
 ﻿using EventPlus.WebAPI.BdContextEvent;
+using EventPlus.WebAPI.DTOs;
 using EventPlus.WebAPI.Interfaces;
 using EventPlus.WebAPI.Models;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,16 @@ namespace EventPlus.WebAPI.Repositories
         }
 
         public void Atualizar(Guid id, Evento eventoAtualizado)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Atualizar(Guid id, PresencaDTO presenca)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Atualizar(Guid id, Presenca presenca)
         {
             throw new NotImplementedException();
         }

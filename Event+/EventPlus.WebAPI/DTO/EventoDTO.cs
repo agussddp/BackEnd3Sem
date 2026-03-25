@@ -1,24 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EventPlus.WebAPI.DTOs
+namespace EventPlus.WebAPI.DTO
 {
-
     public class EventoDTO
     {
-        
-        [Required(ErrorMessage = "O nome do evento é obrigatório")]
         public string? Nome { get; set; }
-
-        [Required(ErrorMessage = "A data do evento é obrigatória")]
-        public DateTime DataEvento { get; set; }
-
-        [Required(ErrorMessage = "A descrição do evento é obrigatória")]
+        [Required(ErrorMessage = "blupp")]
         public string? Descricao { get; set; }
-
-        [Required(ErrorMessage = "O tipo de evento é obrigatório")]
+        [Required(ErrorMessage = "blupp")]
+        public DateTime DataEvento { get; set; }
+        [Required(ErrorMessage = "blupp")]
         public Guid IdTipoEvento { get; set; }
-
-        [Required(ErrorMessage = "A instituição é obrigatória")]
+        [Required(ErrorMessage = "blupp")]
         public Guid IdInstituicao { get; set; }
     }
 }
