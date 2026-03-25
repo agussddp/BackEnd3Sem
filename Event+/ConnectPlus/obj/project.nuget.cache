@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "ojBvtAQAVgM=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\54781547842\\Desktop\\BackEnd3Sem\\Event+\\ConnectPlus\\ConnectPlus.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\54781547842\\.nuget\\packages\\microsoft.aspnetcore.openapi\\10.0.4\\microsoft.aspnetcore.openapi.10.0.4.nupkg.sha512",
+    "C:\\Users\\54781547842\\.nuget\\packages\\microsoft.openapi\\2.0.0\\microsoft.openapi.2.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

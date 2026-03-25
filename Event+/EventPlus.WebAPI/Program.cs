@@ -47,16 +47,16 @@ builder.Services.AddSwaggerGen(Options =>
         Version = "v1",
         Title = "API de Eventos",
         Description = "API para gerenciamento de eventos",
-        TermsOfService = new Uri("https://drive.google.com/file/d/1VWD-PMIfm1fPuQST_ByhAspS7deVlJkB/view?usp=sharing"),
+        TermsOfService = new Uri("https://exemplo"),
         Contact = new OpenApiContact
         {
-            Name = "Ariel",
-            Url = new Uri("https://github.com/ArielPinheiro")
+            Name = "Giulia",
+            Url = new Uri("https://exemplo")
         },
         License = new OpenApiLicense
         {
             Name = "Licensa de exemplo",
-            Url = new Uri("https://lh3.googleusercontent.com/pw/AP1GczN5VJ3-9BbzTAsOdd6g4qgUlnQ5Sb-iJXUsZCX8He6WZBftqZjau3bjEzOP9Qe2HhRvEQRltzjxVZWntGCMnMuMDnNyjlDCavcD1KaK3nsIk0ZQQeMMWmgNiJts0Mo3q8fJe4--G0xsu0Tg0-pwUL4T=w408-h408-s-no?authuser=0")
+            Url = new Uri("https://exemplo")
         }
     });
     Options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
