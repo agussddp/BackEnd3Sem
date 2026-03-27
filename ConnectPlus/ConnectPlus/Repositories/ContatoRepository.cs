@@ -7,10 +7,17 @@ namespace ConnectPlus.Repositories
     public class ContatoRepository : IContatoRepository
     {
         private readonly ConnectContext _context;
+
         public ContatoRepository(ConnectContext context)
         {
             _context = context;
         }
+
+        /// <summary>
+        /// Atualiza os dados de um contato existente no banco de dados
+        /// </summary>
+        /// <param name="Id">O identificador único do contato a ser atualizado</param>
+        /// <param name="contato"> as novas informações do contato</param>
         public void Atualizar(Guid Id, Contato contato)
         {
             var contatoExistente = _context.Contatos.Find(Id);
@@ -24,22 +31,40 @@ namespace ConnectPlus.Repositories
             }
         }
 
+        /// <summary>
+        /// Busca um contato pelo seu identificador 
+        /// </summary>
+        /// <param name="id">O ID do contato</param>
+        /// <returns>Id do contato</returns>
         public Contato BuscarPorId(Guid id)
         {
-            throw new NotImplementedException();
+            return _context.Contatos.Find(id)!;
         }
 
+        /// <summary>
+        /// Busca um contato específico através do seu id
+        /// </summary>
+        /// <param name="Id">O id do contato</param>
+        /// <returns>O contato encontrado</returns>
         public Contato BuscarPorIdContato(Guid Id)
         {
             return _context.Contatos.Find(Id)!;
         }
 
+        /// <summary>
+        /// Realiza o cadastro de um novo contato
+        /// </summary>
+        /// <param name="contato">contato a ser salvo</param>
         public void Cadastrar(Contato contato)
         {
             _context.Contatos.Add(contato);
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Exclui um contato 
+        /// </summary>
+        /// <param name="Id">O id do contato que será removido</param>
         public void Deletar(Guid Id)
         {
             var contatoExistente = _context.Contatos.Find(Id);
@@ -50,6 +75,10 @@ namespace ConnectPlus.Repositories
             }
         }
 
+        /// <summary>
+        /// Lista todos os contatos registrados no sistema
+        /// </summary>
+        /// <returns>Uma lista contendo todos os contatos</returns>
         public List<Contato> Listar()
         {
             return _context.Contatos.ToList();

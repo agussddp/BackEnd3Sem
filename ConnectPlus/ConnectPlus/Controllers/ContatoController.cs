@@ -17,6 +17,10 @@ public class ContatoController : ControllerBase
         _contatoRepository = contatoRepository;
     }
 
+    /// <summary>
+    /// Lista todos os contatos cadastrados no sistema
+    /// </summary>
+    /// <returns>Uma lista de objetos de contato ou erro de requisição</returns>
     [HttpGet]
     public IActionResult Get()
     {
@@ -30,6 +34,11 @@ public class ContatoController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Busca um contato específico através do seu identificador único
+    /// </summary>
+    /// <param name="id">O ID do contato desejado</param>
+    /// <returns>O objeto do contato se encontrado</returns>
     [HttpGet("{id}")]
     public IActionResult GetById(Guid id)
     {
@@ -46,6 +55,11 @@ public class ContatoController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Cadastra um novo contato, permitindo o upload de uma imagem de perfil
+    /// </summary>
+    /// <param name="novoContato">Objeto contendo os dados do contato e o arquivo de imagem via formulário</param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<IActionResult> Post([FromForm] ContatoDTO novoContato)
     {
@@ -91,6 +105,12 @@ public class ContatoController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Atualiza os dados de um contato, substituindo a imagem física se uma nova for enviada
+    /// </summary>
+    /// <param name="id">O ID do contato a ser atualizado</param>
+    /// <param name="contato"> as novas informações</param>
+    /// <returns></returns>
     [HttpPut("{id}")]
     public async Task<IActionResult> Put(Guid id, [FromForm] ContatoDTO contato)
     {
@@ -150,6 +170,11 @@ public class ContatoController : ControllerBase
         }
     }
 
+    /// <summary>
+    /// Remove um contato do sistema e exclui seu arquivo de imagem físico do servidor
+    /// </summary>
+    /// <param name="id">O ID do contato a ser excluído</param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public IActionResult Delete(Guid id)
     {
@@ -157,7 +182,7 @@ public class ContatoController : ControllerBase
         if (contatoBuscado == null)
             return NotFound("Contato não encontrado");
 
-        // Deletar arquivo físico da imagem antes de remover do banco
+        
         if (!string.IsNullOrEmpty(contatoBuscado.Imagem))
         {
             var pastaRelativa = "wwwroot/imagens";
